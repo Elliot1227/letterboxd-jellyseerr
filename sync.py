@@ -60,7 +60,7 @@ def fetch_watchlist() -> list[dict]:
         r.raise_for_status()
         soup = BeautifulSoup(r.text, "html.parser")
 
-        items = soup.select("li.poster-container")
+        items = soup.select("li.griditem")
         if not items:
             break
 
