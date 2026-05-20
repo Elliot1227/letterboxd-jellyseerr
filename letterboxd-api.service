@@ -1,0 +1,15 @@
+[Unit]
+Description=Letterboxd Jellyseerr Widget API
+After=network.target
+
+[Service]
+Type=simple
+User=your_user
+WorkingDirectory=/home/your_user/letterboxd-jellyseerr
+ExecStart=/home/your_user/letterboxd-jellyseerr/venv/bin/python /home/your_user/letterboxd-jellyseerr/api.py
+Restart=on-failure
+RestartSec=5
+Environment=PYTHONUNBUFFERED=1
+
+[Install]
+WantedBy=multi-user.target
