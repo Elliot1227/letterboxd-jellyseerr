@@ -125,6 +125,8 @@ def check_streaming(tmdb_id: int) -> list[str]:
         data = r.json()
         available = []
         for option in data.get("streamingOptions", {}).get(COUNTRY_CODE.lower(), []):
+            if option.get("type") not in ("subscription", "free"):
+                continue
             service_id = option.get("service", {}).get("id", "").lower()
             service_name = option.get("service", {}).get("name", "")
             if service_id in STREAMING_SERVICES and service_name not in available:
@@ -177,12 +179,13 @@ def create_request(tmdb_id: int) -> dict | None:
             json={"mediaType": "movie", "mediaId": tmdb_id},
             timeout=10,
         )
-        r.raise_for_status()
+        if not r.ok:
+            log.warning(f"Failed to create request for TMDB {tmdb_id}: {r.status_code} — {r.text}")
+            return None
         return r.json()
     except Exception as e:
         log.warning(f"Failed to create request for TMDB {tmdb_id}: {e}")
     return None
-
 
 def deny_request(request_id: int, reason: str = "Available on streaming"):
     try:
