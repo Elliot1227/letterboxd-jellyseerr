@@ -65,16 +65,23 @@ def fetch_watchlist() -> list[dict]:
             break
 
         for item in items:
-            div = item.find("div", attrs={"data-film-slug": True})
+            div = item.find("div", attrs={"data-item-slug": True})
             if not div:
                 continue
-            slug = div["data-film-slug"]
-            title = div.get("data-film-name", slug)
-            year = div.get("data-film-release-year", "")
+            slug = div["data-item-slug"]
+            full_name = div.get("data-item-full-display-name", "")
+            # full_name is like "Portrait of a Lady on Fire (2019)"
+            year = ""
+            title = full_name
+            if full_name.endswith(")") and "(" in full_name:
+                title, _, year_part = full_name.rpartition("(")
+                title = title.strip()
+                year = year_part.rstrip(")")
+            link = div.get("data-item-link", f"/film/{slug}/")
             films.append({
                 "title": title,
                 "year": year,
-                "letterboxd_url": f"https://letterboxd.com/film/{slug}/",
+                "letterboxd_url": f"https://letterboxd.com{link}",
             })
 
         page += 1
