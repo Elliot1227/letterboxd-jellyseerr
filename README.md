@@ -21,7 +21,7 @@ Syncs your Letterboxd watchlist to Jellyseerr, auto-denies anything available on
 ### 1. Clone and install
 
 ```bash
-git clone https://github.com/yourusername/letterboxd-jellyseerr.git
+git clone https://github.com/Elliot1227/letterboxd-jellyseerr.git
 cd letterboxd-jellyseerr
 python3 -m venv venv
 venv/bin/pip install -r requirements.txt
