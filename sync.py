@@ -114,15 +114,13 @@ def get_tmdb_id_from_letterboxd(letterboxd_url: str) -> int | None:
 # ---------------------------------------------------------------------------
 
 def check_streaming(tmdb_id: int) -> list[str]:
-    """Return list of service names this movie is on (filtered to your services)."""
-    url = "https://streaming-availability.p.rapidapi.com/shows/movie"
-    params = {"tmdb_id": f"movie/{tmdb_id}", "output_language": "en"}
+    url = f"https://streaming-availability.p.rapidapi.com/shows/movie/{tmdb_id}"
     headers = {
         "X-RapidAPI-Key": STREAMING_API_KEY,
         "X-RapidAPI-Host": "streaming-availability.p.rapidapi.com",
     }
     try:
-        r = requests.get(url, headers=headers, params=params, timeout=10)
+        r = requests.get(url, headers=headers, timeout=10)
         r.raise_for_status()
         data = r.json()
         available = []
