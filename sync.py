@@ -5,6 +5,7 @@ Uses letterboxd-rss to fetch the watchlist, checks streaming availability,
 auto-denies anything on your services, and queues the rest in Jellyseerr.
 """
 
+import os
 import json
 import time
 import logging
@@ -57,7 +58,7 @@ def fetch_watchlist() -> list[dict]:
     Returns list of {title, year, letterboxd_url}.
     """
     profile_url = f"https://letterboxd.com/{LETTERBOXD_USERNAME}/"
-    log.info(f"Running letterboxd-rss for {profile_url}")
+    [os.path.join(os.path.dirname(VENV_PYTHON), "letterboxd-rss"), "-o", FEED_FILE, profile_url],
 
     result = subprocess.run(
         [VENV_PYTHON, "-m", "letterboxd_rss", "-o", FEED_FILE, profile_url],
