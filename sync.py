@@ -172,7 +172,13 @@ def get_existing_requests() -> dict[int, dict]:
 
 
 from config import (
-    ...
+    LETTERBOXD_USERNAME,
+    JELLYSEERR_URL,
+    JELLYSEERR_API_KEY,
+    STREAMING_API_KEY,
+    STREAMING_SERVICES,
+    COUNTRY_CODE,
+    CACHE_FILE,
     JELLYSEERR_USER_ID,
 )
 
