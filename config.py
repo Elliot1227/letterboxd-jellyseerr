@@ -34,3 +34,7 @@ FEED_FILE  = os.path.join(BASE_DIR, "feed.xml")
 
 # Port the Flask API listens on
 API_PORT = 5000
+
+# Jellyseerr user ID to create requests under.
+# Find this at: GET /api/v1/user while authenticated as admin.
+JELLYSEERR_USER_ID = 3
