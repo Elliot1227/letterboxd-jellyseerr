@@ -171,17 +171,23 @@ def get_existing_requests() -> dict[int, dict]:
     return existing
 
 
+from config import (
+    ...
+    JELLYSEERR_USER_ID,
+)
+
 def create_request(tmdb_id: int) -> dict | None:
     try:
+        payload = {"mediaType": "movie", "mediaId": tmdb_id}
+        if JELLYSEERR_USER_ID is not None:
+            payload["userId"] = JELLYSEERR_USER_ID
         r = requests.post(
             f"{JELLYSEERR_URL}/api/v1/request",
             headers=jellyseerr_headers(),
-            json={"mediaType": "movie", "mediaId": tmdb_id},
+            json=payload,
             timeout=10,
         )
-        if not r.ok:
-            log.warning(f"Failed to create request for TMDB {tmdb_id}: {r.status_code} — {r.text}")
-            return None
+        r.raise_for_status()
         return r.json()
     except Exception as e:
         log.warning(f"Failed to create request for TMDB {tmdb_id}: {e}")
